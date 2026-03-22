@@ -20,6 +20,11 @@ const sidebarsprojects = {
 
 
   docSidebar: [
+    // {
+    //   label: '目录总览',
+    //   type: 'doc',
+    //   id: 'intro' // 总说明
+    // },
     {
       type: 'category',
       label: '项目札记',
@@ -30,13 +35,14 @@ const sidebarsprojects = {
       items: [
         {
           type: 'category',
-          label: 'STM32MP1', // 下一级分类1
+          label: 'Dev Journal', // 博客系统搭建
           link: {
             type: 'doc',
-            id: 'project-notes/stm32mp1/intro'
+            id: 'project-notes/dev-journal/intro'
           },
           items: [
-            'project-notes/stm32mp1/kernel/kernel-compile' // 下二级示例
+            'project-notes/dev-journal/setup',
+            'project-notes/dev-journal/custom-footer'
           ]
         }
       ]
@@ -49,15 +55,15 @@ const sidebarsprojects = {
         id: 'tech-notes/intro' // 关联tech-notes总说明
       },
       items: [
-        {
-          type: 'category',
-          label: 'Linux基础', // 下一级分类1
-          link: {
-            type: 'doc',
-            id: 'tech-notes/linux-basics/command-line'
-          },
-          items: [] // 预留扩展空间
-        }
+        // {
+        //   type: 'category',
+        //   label: 'Linux基础', // 下一级分类1
+        //   link: {
+        //     type: 'doc',
+        //     id: 'tech-notes/linux-basics/command-line'
+        //   },
+        //   items: [] // 预留扩展空间
+        // }
       ]
     },
     {

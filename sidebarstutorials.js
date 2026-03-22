@@ -30,7 +30,7 @@ const sidebarstutorials = {
       items: [
         {
           type: 'category',
-          label: 'Linux', // 下一级分类1
+          label: 'Linux基础', // 下一级分类1
           link: {
             type: 'doc',
             id: 'linux/intro'
