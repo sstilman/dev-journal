@@ -5,20 +5,22 @@
 
 export const footerLinks = [
   {
-    title: '导航',
+    title: '本站导航',
     links: [
       // { label: '项目札记', to: '/docs/intro' },
+      // { label: '博客', to: '/blog' },
+    ],
+  },
+  {
+    title: '其他站点',
+    links: [
+      { label: '📖 浮生杂记', href: 'https://life.stilman.space' },
     ],
   },
   {
     title: '资源',
     links: [
       // { label: 'GitHub', href: 'https://github.com' },
-    ],
-  },
-  {
-    title: '社交',
-    links: [
     ],
   },
   {

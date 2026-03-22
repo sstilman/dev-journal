@@ -11,7 +11,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Dev Journal",
-  tagline: 'Embedded Development Notes | 以码为笔，记深耕之路',
+  tagline: 'Embedded Development Notes | 嵌入式开发笔记 | dev.stilman.space',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -20,7 +20,7 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://stilman.space',  // 你的专属域名
+  url: 'https://dev.stilman.space',  // 技术站子域名
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -96,7 +96,7 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: "Dev Journal",  // 导航栏显示站点名，与配置一致
+        title: "Dev Journal",  // 导航栏显示站点名
         logo: {
           alt: "Dev Journal Logo",
           src: 'img/logo.svg',  // 后续可添加个性化logo
@@ -116,6 +116,11 @@ const config = {
             label: '教程专栏',
           },
           {to: '/blog', label: '博客', position: 'left'},
+          {
+            href: 'https://life.stilman.space',
+            label: '📖 浮生杂记',
+            position: 'right',
+          },
           // {
           //   type: 'localeDropdown',
           //   position: 'right',

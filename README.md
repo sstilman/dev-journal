@@ -1,41 +1,48 @@
-# Website
+# Dev Journal
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+嵌入式开发学习与实践记录站点。
 
-## Installation
+**🔗 站点入口**: https://dev.stilman.space
+
+> 💡 想要记录生活点滴？去看看 [📖 浮生杂记](https://life.stilman.space)
+
+## 站点架构
+
+| 站点 | 域名 | 定位 |
+|------|------|------|
+| **Dev Journal** | dev.stilman.space | 嵌入式开发笔记 |
+| **浮生杂记** | life.stilman.space | 生活记录 + 学习感悟 |
+
+## 技术栈
+
+本项目使用 [Docusaurus](https://docusaurus.io/) 构建。
+
+## 安装
 
 ```bash
 yarn
 ```
 
-## Local Development
+## 本地开发
 
 ```bash
 yarn start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+启动本地开发服务器，默认访问 http://localhost:3000
 
-## Build
+## 构建
 
 ```bash
 yarn build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+生成静态文件到 `build` 目录
 
-## Deployment
-
-Using SSH:
+## 部署
 
 ```bash
-USE_SSH=true yarn deploy
+yarn deploy
 ```
 
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+使用 GitHub Pages 部署
