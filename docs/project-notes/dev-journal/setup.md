@@ -1,6 +1,7 @@
 ---
 description: Dev Journal 基础搭建与框架整理记录
 draft: false
+tags: [Docusaurus, 环境搭建]
 ---
 
 # Dev Journal 基础搭建与框架整理

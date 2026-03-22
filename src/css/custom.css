@@ -17,10 +17,10 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-/* tutorials 内容列 max-width 与 docs 无 TOC 时保持一致——Bootstrap .col 默认在无 col--N 时取 100% */
+/* tutorials / 无桌面 TOC 的文档：内容列全宽。
+ * 注意：不得作用于「主文 + 右侧 TOC」两行布局，否则主列会被设为 100%，TOC 会换到下一行（跑到评论下方）。 */
 @media (min-width: 997px) {
-  /* 覆盖 tutorials 文档集内容列，让无 TOC 时也取与 docs 相同的最大可用宽度 */
-  .docs-wrapper .row .col:not(.col--3) {
+  .docs-wrapper .row:not(:has(> .col--3)) .col:not(.col--3) {
     max-width: 100% !important;
     flex: 0 0 100% !important;
   }
@@ -34,4 +34,24 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   Giscus 评论样式修复
+   ======================================== */
+.giscus-loading {
+  padding: 1rem;
+  text-align: center;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* Giscus：暗色下告知浏览器使用暗色配色，让 iframe 内容自行控制背景（由 theme 属性决定） */
+[data-theme='dark'] .discuss-root .giscus-frame {
+  color-scheme: dark;
+}
+
+/* 暗色主题下讨论区背景统一为深色（匹配 giscus dark 主题背景） */
+[data-theme='dark'] .discuss-root {
+  background-color: #1a1a1b;
+  border-radius: var(--ifm-card-border-radius);
 }

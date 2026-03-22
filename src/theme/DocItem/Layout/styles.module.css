@@ -1,0 +1,19 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.docItemContainer header + *,
+.docItemContainer article > *:first-child {
+  margin-top: 0;
+}
+
+@media (min-width: 997px) {
+  /* 当有 TOC 时，内容区占 75% */
+  .docItemCol {
+    max-width: 75% !important;
+    flex: 0 0 75% !important;
+  }
+}

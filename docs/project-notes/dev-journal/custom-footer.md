@@ -1,6 +1,7 @@
 ---
 description: Docusaurus 自定义页脚设计与实现
 draft: false
+tags: [Docusaurus, footer]
 ---
 
 # Docusaurus 自定义页脚设计与实现

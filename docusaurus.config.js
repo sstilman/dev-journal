@@ -6,12 +6,27 @@
 
 import {themes as prismThemes} from 'prism-react-renderer';
 
+// Giscus 配置（直接内联，避免 webpack 解析路径问题）
+const giscusConfig = {
+  repo: 'sstilman/dev-journal.discussions',
+  repoId: 'R_kgDORtscZA',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDORtscZM4C5BYZ',
+  mapping: 'title',
+  strict: '0',
+  reactionsEnabled: '1',
+  emitMetadata: '0',
+  inputPosition: 'bottom',
+  lang: 'zh-CN',
+  loading: 'lazy',
+};
+
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Dev Journal",
-  tagline: 'Embedded Development Notes | 嵌入式开发笔记 | dev.stilman.space',
+  tagline: 'Embedded Development Notes | 以码为笔，记深耕之路',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -143,7 +158,16 @@ const config = {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
       },
+      giscus: giscusConfig,
     }),
 };
 
 export default config;
+
+// ============================================================
+// Client Modules
+// 用于加载客户端模块
+// ============================================================
+config.clientModules = [
+  require.resolve('./src/clientModules/routeModules.js'),
+];

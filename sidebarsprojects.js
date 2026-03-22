@@ -42,7 +42,11 @@ const sidebarsprojects = {
           },
           items: [
             'project-notes/dev-journal/setup',
-            'project-notes/dev-journal/custom-footer'
+            'project-notes/dev-journal/custom-footer',
+            'project-notes/dev-journal/giscus-integration',
+            'project-notes/dev-journal/giscus-config-standalone',
+            'project-notes/dev-journal/discuss-component-ssr-fix',
+            'project-notes/dev-journal/discuss-layout-css-fixes'
           ]
         }
       ]
@@ -55,6 +59,7 @@ const sidebarsprojects = {
         id: 'tech-notes/intro' // 关联tech-notes总说明
       },
       items: [
+        'tech-notes/pnpm-setup-guide',
         // {
         //   type: 'category',
         //   label: 'Linux基础', // 下一级分类1

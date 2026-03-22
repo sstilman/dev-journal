@@ -1,0 +1,13 @@
+/* BlogPostPage Discuss wrapper: 与 BlogLayout 的 container 保持一致的留白 */
+.discussWrapper {
+  max-width: var(--ifm-container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 var(--ifm-global-spacing);
+}
+
+@media (min-width: 1440px) {
+  .discussWrapper {
+    max-width: calc(var(--ifm-container-width-xl) - 2 * var(--ifm-global-spacing));
+  }
+}
