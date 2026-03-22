@@ -1,0 +1,184 @@
+.footer {
+  /* 与列标题「导航」等共用，保证品牌名与导航字样同色 */
+  --footer-heading-color: #ffffff;
+  background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+  color: #e5e5e5;
+  padding: 4rem 0 2rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footerTop {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr;
+  gap: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brandSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--footer-heading-color);
+  letter-spacing: -0.02em;
+}
+
+.brandDescription {
+  color: #a3a3a3;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.linkColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.columnTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--footer-heading-color);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footerLink {
+  color: #a3a3a3;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.footerLink:hover {
+  color: #25c2a0;
+}
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.copyright {
+  color: #737373;
+  font-size: 0.8125rem;
+}
+
+.copyright p {
+  margin: 0;
+}
+
+.bottomRight {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.poweredBy {
+  color: #737373;
+  font-size: 0.8125rem;
+}
+
+.poweredBy a {
+  color: #a3a3a3;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.poweredBy a:hover {
+  color: #25c2a0;
+}
+
+[data-theme='light'] .footer {
+  --footer-heading-color: #0f172a;
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+  color: #1e293b;
+  border-top: 1px solid #e2e8f0;
+}
+
+[data-theme='light'] .brandDescription {
+  color: #64748b;
+}
+
+[data-theme='light'] .footerLink {
+  color: #475569;
+}
+
+[data-theme='light'] .footerLink:hover {
+  color: #2e8555;
+}
+
+[data-theme='light'] .copyright,
+[data-theme='light'] .poweredBy {
+  color: #94a3b8;
+}
+
+[data-theme='light'] .poweredBy a {
+  color: #64748b;
+}
+
+[data-theme='light'] .poweredBy a:hover {
+  color: #2e8555;
+}
+
+@media (max-width: 1024px) {
+  .footerTop {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .linksGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .footer {
+    padding: 3rem 0 1.5rem;
+  }
+
+  .footerContainer {
+    padding: 0 1.25rem;
+  }
+
+  .linksGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
