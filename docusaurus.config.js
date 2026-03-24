@@ -95,6 +95,52 @@ const config = {
         sidebarPath: './sidebarstutorials.js',
       },
     ],
+    
+    // Algolia DocSearch 搜索插件配置
+    // 请替换以下占位符为你的 Algolia 凭证:
+    // - appId: Algolia Dashboard 中获取的 Application ID
+    // - apiKey: Algolia Search-Only API Key (public key)
+    // - indexName: 你的索引名称 (通常是 "docusaurus" 或自定义名称)
+    // @see https://docusaurus.io/docs/search#using-algolia-docsearch
+    // [
+    //   '@docusaurus/plugin-search-algolia',
+    //   {
+    //     // 【重要】请替换为你的 Algolia App ID
+    //     appId: 'YOUR_APP_ID',
+    //     // 【重要】请替换为你的 Algolia Search-Only API Key (public key)
+    //     apiKey: 'YOUR_SEARCH_API_KEY',
+    //     // 【重要】请替换为你的 Algolia Index Name
+    //     indexName: 'YOUR_INDEX_NAME',
+    //     // 搜索结果的语言环境
+    //     contextualSearch: true,
+    //     // 搜索参数配置
+    //     searchParameters: {},
+    //     // 搜索结果页面路径
+    //     searchPagePath: 'search',
+    //   },
+    // ],
+
+    // @easyops-cn/docusaurus-search-local - 本地搜索插件
+    // 完全离线工作，构建时生成搜索索引，无需公网
+    // @see https://github.com/easyops-cn/docusaurus-search-local
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        // 索引范围
+        indexBlog: true,
+        indexDocs: true,
+        // 中英文分词
+        language: ['en', 'zh'],
+        // 使用内容哈希
+        hashed: true,
+        // 高亮搜索词
+        highlightSearchTermsOnTargetPage: true,
+        // 搜索结果数量限制
+        searchResultLimits: 10,
+        // 搜索结果上下文最大长度
+        searchResultContextMaxLength: 50,
+      },
+    ],
   ],
 
   themeConfig:
@@ -131,10 +177,15 @@ const config = {
             label: '教程专栏',
           },
           {to: '/blog', label: '博客', position: 'left'},
+          // 本地搜索栏（由 docusaurus-search-local 插件提供，位于导航栏右侧）
+          {
+            type: 'search',
+            position: 'right',
+          },
           {
             href: 'https://life.stilman.space',
-            label: '📖 浮生杂记',
-            position: 'right',
+            label: '浮生杂记',
+            position: 'left',
           },
           // {
           //   type: 'localeDropdown',

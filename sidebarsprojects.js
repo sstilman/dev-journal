@@ -44,9 +44,7 @@ const sidebarsprojects = {
             'project-notes/dev-journal/setup',
             'project-notes/dev-journal/custom-footer',
             'project-notes/dev-journal/giscus-integration',
-            'project-notes/dev-journal/giscus-config-standalone',
-            'project-notes/dev-journal/discuss-component-ssr-fix',
-            'project-notes/dev-journal/discuss-layout-css-fixes'
+            'project-notes/dev-journal/search-integration'
           ]
         }
       ]

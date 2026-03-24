@@ -2,28 +2,28 @@
 id: giscus-integration
 date: 2026-03-22
 authors: stilman
-tags: [Docusaurus, Giscus, 评论服务]
-keywords: [Docusaurus, Giscus, 评论, GitHub Discussions]
+tags: [Docusaurus, Giscus, 评论服务, React, SSR]
+keywords: [Docusaurus, Giscus, 评论, GitHub Discussions, React Hook, BrowserOnly, 主题切换]
 draft: false
 ---
 
 # Docusaurus 集成 Giscus 评论服务
 
-本文档记录了在 Dev Journal 中集成 Giscus 评论服务的完整过程。
+本文档记录在 Dev Journal 中集成 Giscus 评论服务的完整过程，涵盖初始集成、SSR 兼容性处理、主题适配等所有细节。
 
 <!-- truncate -->
 
 ## 概述
 
-Giscus 是一个基于 GitHub Discussions 的评论服务，由 GitHub 官方支持。它允许访客通过 GitHub 账号在您的网站上发表评论和反应，所有评论数据都存储在 GitHub Discussions 中。
+Giscus 是一个基于 GitHub Discussions 的评论服务，由 GitHub 官方支持。它允许访客通过 GitHub 账号在网站上发表评论，所有评论数据都存储在 GitHub Discussions 中。
 
 ### Giscus 的优势
 
-- **免费开源**: 完全免费且源代码开放
-- **无需数据库**: 评论存储在 GitHub Discussions 中
-- **安全可靠**: 使用 GitHub OAuth 进行身份验证
-- **主题支持**: 支持多种主题，与暗色模式无缝集成
-- **无追踪**: 无广告、无追踪器
+- **免费开源**：完全免费且源代码开放
+- **无需数据库**：评论存储在 GitHub Discussions 中
+- **安全可靠**：使用 GitHub OAuth 进行身份验证
+- **主题支持**：支持多种主题，与暗色模式无缝集成
+- **无追踪**：无广告、无追踪器
 
 ## 前置准备
 
@@ -41,25 +41,22 @@ Giscus 是一个基于 GitHub Discussions 的评论服务，由 GitHub 官方支
 2. 向下滚动到 `Features` 部分
 3. 勾选 `Discussions` 开启讨论功能
 
+:::info
+不必手动在 Discussions 里先发帖；giscus 会在首次评论时自动创建对应 Discussion。
+:::
+
 ### 3. 获取配置参数
 
-访问 [https://giscus.app/zh-CN](https://giscus.app/zh-CN)，输入您的仓库信息：
+访问 [https://giscus.app/zh-CN](https://giscus.app/zh-CN)，输入仓库信息后，页面会显示以下必要参数：
 
-| 参数 | 说明 | 示例 |
-|------|------|------|
-| 仓库 | GitHub 仓库名称 | `用户名/仓库名` |
-| 映射关系 | 评论与文章的映射方式 | `title` |
-| Discussion 分类 | 创建 Discussion 的分类 | `Announcements` |
+| 参数 | 说明 |
+|------|------|
+| `data-repo` | GitHub 仓库名称 |
+| `data-repo-id` | 仓库 ID |
+| `data-category` | Discussion 分类名称 |
+| `data-category-id` | 分类 ID |
 
-配置完成后，页面会显示以下必要参数：
-- `data-repo`
-- `data-repo-id`
-- `data-category`
-- `data-category-id`
-
-## 项目集成
-
-### 文件结构
+## 项目结构
 
 ```
 src/
@@ -67,44 +64,257 @@ src/
 │   └── Discuss/
 │       └── index.js        # Giscus 评论组件
 ├── data/
-│   └── giscusConfig.js      # Giscus 配置文件
-├── clientModules/
-│   └── routeModules.js     # 路由更新事件处理
-└── theme/
-    ├── DocItem/
-    │   └── Layout/          # 文档页面布局（已 swizzle）
-    └── BlogPostPage/
-        └── index.js         # 博客页面（已 swizzle）
+│   └── giscusConfig.js    # Giscus 配置文件
+└── css/
+    └── custom.css         # 全局样式（含暗色主题适配）
 ```
 
-### 配置文件
+## 配置文件
 
-编辑 `src/data/giscusConfig.js`：
+### giscusConfig.js
 
 ```javascript
+// src/data/giscusConfig.js
+
 export const giscusConfig = {
   repo: '用户名/仓库名',
   repoId: 'R_kgD0XXXXX',
   category: 'Announcements',
   categoryId: 'DIC_kwD0XXXXX',
 };
+
+export const giscusThemeConfig = {
+  lightTheme: 'light',
+  darkTheme: 'dark',
+  mapping: 'title',
+  strict: '0',
+  reactionsEnabled: '1',
+  emitMetadata: '0',
+  inputPosition: 'bottom',
+  lang: 'zh-CN',
+  loading: 'lazy',
+};
 ```
 
-### Docusaurus 配置
+### 配置项说明
 
-编辑 `docusaurus.config.js`，取消注释并填写 giscus 配置：
+| 配置项 | 说明 | 示例值 |
+|--------|------|--------|
+| `repo` | GitHub 仓库 | `用户名/仓库名` |
+| `repoId` | 仓库 ID | `R_kgD0XXXXX` |
+| `category` | Discussion 分类 | `Announcements` |
+| `categoryId` | 分类 ID | `DIC_kwD0XXXXX` |
+| `lightTheme` | 浅色主题 | `light` / `github_light` |
+| `darkTheme` | 深色主题 | `dark` / `github_dark` |
+| `mapping` | 映射方式 | `title` |
+| `inputPosition` | 输入框位置 | `bottom` |
+
+## 评论组件实现
+
+### Discuss 组件核心代码
 
 ```javascript
-themeConfig: {
-  giscus: {
-    repo: '用户名/仓库名',
-    repoId: 'R_kgD0XXXXX',
-    category: 'Announcements',
-    categoryId: 'DIC_kwD0XXXXX',
-    theme: 'light',
-    darkTheme: 'dark_dimmed',
-  },
-},
+// src/components/Discuss/index.js
+
+import {useState, useEffect, useMemo} from 'react';
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import {giscusConfig, giscusThemeConfig} from '@site/src/data/giscusConfig';
+
+function useGiscusConfig() {
+  return useMemo(
+    () => ({
+      ...giscusThemeConfig,
+      ...giscusConfig,
+    }),
+    [],
+  );
+}
+
+function getDocusaurusColorMode() {
+  if (typeof document === 'undefined') {
+    return 'light';
+  }
+  return document.documentElement.getAttribute('data-theme') === 'dark'
+    ? 'dark'
+    : 'light';
+}
+
+function GiscusInner() {
+  const cfg = useGiscusConfig();
+  const [GiscusComponent, setGiscusComponent] = useState(null);
+  const [routeKey, setRouteKey] = useState(0);
+
+  useEffect(() => {
+    import('@giscus/react').then((mod) => {
+      setGiscusComponent(() => mod.default);
+    });
+  }, []);
+
+  // 监听路由更新
+  useEffect(() => {
+    if (typeof window.emitter !== 'undefined') {
+      const handleRouteUpdate = () => {
+        setRouteKey((k) => k + 1);
+      };
+      window.emitter.on('onRouteDidUpdate', handleRouteUpdate);
+      return () => {
+        window.emitter.off('onRouteDidUpdate', handleRouteUpdate);
+      };
+    }
+  }, []);
+
+  // 监听主题切换，重新渲染 giscus
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setRouteKey((k) => k + 1);
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  if (!cfg.repo || !cfg.repoId || !cfg.categoryId) {
+    return (
+      <div style={{padding: '20px', background: '#fff3cd', border: '1px solid #ffc107', borderRadius: '8px'}}>
+        <strong>评论功能未启用</strong>
+        <p>请在 <code>src/data/giscusConfig.js</code> 中填写配置。</p>
+      </div>
+    );
+  }
+
+  const isDark = getDocusaurusColorMode() === 'dark';
+  const theme = isDark ? cfg.darkTheme : cfg.lightTheme;
+
+  if (!GiscusComponent) {
+    return <div className="giscus-loading">正在加载评论...</div>;
+  }
+
+  return (
+    <div data-giscus-theme={theme} key={routeKey}>
+      <GiscusComponent
+        id="discuss"
+        repo={cfg.repo}
+        repoId={cfg.repoId}
+        category={cfg.category}
+        categoryId={cfg.categoryId}
+        mapping={cfg.mapping}
+        strict={cfg.strict}
+        reactionsEnabled={cfg.reactionsEnabled}
+        emitMetadata={cfg.emitMetadata}
+        inputPosition={cfg.inputPosition}
+        theme={theme}
+        lang={cfg.lang}
+        loading={cfg.loading}
+      />
+    </div>
+  );
+}
+
+export default function Discuss() {
+  return (
+    <div className="discuss-root margin-top--xl margin-bottom--lg">
+      <BrowserOnly fallback={<div className="giscus-loading">正在加载评论...</div>}>
+        {() => <GiscusInner />}
+      </BrowserOnly>
+    </div>
+  );
+}
+```
+
+## SSR 兼容性处理
+
+### 问题描述
+
+博客页面在 SSR 编译时报错：
+
+```
+Error: Hook useColorMode is called outside the <ColorModeProvider>
+```
+
+### 原因分析
+
+`useColorMode` 等 Docusaurus Hook 必须在 `ColorModeProvider` 内部调用。SSR 期间 Provider 尚未初始化，直接调用会报错。
+
+### 解决方案
+
+使用 Docusaurus 提供的 `BrowserOnly` 组件包裹客户端代码，确保这些代码只在浏览器端执行：
+
+```javascript
+export default function Discuss() {
+  return (
+    <BrowserOnly fallback={<div>加载中...</div>}>
+      {() => <GiscusInner />}
+    </BrowserOnly>
+  );
+}
+```
+
+关键点：
+- `BrowserOnly` 确保内容只在客户端渲染
+- `fallback` 属性提供 SSR 期间的加载提示
+- 组件内部通过检测 `document` 对象判断环境
+
+## 暗色主题适配
+
+### CSS 样式
+
+```css
+/* src/css/custom.css */
+
+/* 加载提示样式 */
+.giscus-loading {
+  padding: 1rem;
+  text-align: center;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* 暗色主题下让 iframe 使用暗色配色 */
+[data-theme='dark'] .discuss-root .giscus-frame {
+  color-scheme: dark;
+}
+
+/* 暗色主题下讨论区背景（匹配 Docusaurus 暗色主题 #1a1a1b） */
+[data-theme='dark'] .discuss-root {
+  background-color: #1a1a1b;
+  border-radius: var(--ifm-card-border-radius);
+}
+```
+
+### 主题切换刷新
+
+使用 `MutationObserver` 监听 `data-theme` 属性变化，切换主题时自动重新渲染 giscus：
+
+```javascript
+useEffect(() => {
+  const observer = new MutationObserver(() => {
+    setRouteKey((k) => k + 1);
+  });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+  return () => observer.disconnect();
+}, []);
+```
+
+## 路由切换处理
+
+页面路由变化时，需要重新渲染 giscus 以加载对应文章的评论：
+
+```javascript
+useEffect(() => {
+  if (typeof window.emitter !== 'undefined') {
+    const handleRouteUpdate = () => {
+      setRouteKey((k) => k + 1);
+    };
+    window.emitter.on('onRouteDidUpdate', handleRouteUpdate);
+    return () => {
+      window.emitter.off('onRouteDidUpdate', handleRouteUpdate);
+    };
+  }
+}, []);
 ```
 
 ## 使用说明
@@ -117,33 +327,13 @@ themeConfig: {
 
 ### 禁用单页评论
 
-如需在特定页面禁用评论，在 front matter 中添加：
+在 front matter 中添加：
 
 ```yaml
 ---
 hide_discussion: true
 ---
 ```
-
-### 获取配置 ID
-
-除了使用 giscus.app 页面，还可以通过 GitHub GraphQL API 获取：
-
-```graphql
-{
-  repository(owner: "用户名", name: "仓库名") {
-    id
-    discussionCategories(first: 5) {
-      nodes {
-        name
-        id
-      }
-    }
-  }
-}
-```
-
-访问 [GitHub GraphQL API Explorer](https://docs.github.com/en/graphql/overview/explorer) 运行此查询。
 
 ## 故障排除
 
@@ -155,17 +345,15 @@ hide_discussion: true
 
 ### 路由切换后评论不更新
 
-项目已配置 `routeModules.js` 处理此问题。如仍有问题，请检查：
-- 是否正确加载了 `clientModules`
-- `mitt` 依赖是否正确安装
+确保 `BrowserOnly` 组件正确包裹了 giscus 渲染逻辑。
 
 ### 主题不切换
 
-确保在 `giscusConfig.js` 中正确配置了 `lightTheme` 和 `darkTheme`。
+确认 CSS 中正确设置了 `color-scheme: dark`，且 giscus 的 `theme` 属性随 `data-theme` 变化。
 
 ## 相关资源
 
 - [Giscus 官网](https://giscus.app/zh-CN)
 - [Giscus React 组件](https://github.com/giscus/giscus-component)
+- [Docusaurus BrowserOnly 文档](https://docusaurus.io/docs/docusaurus-core#browseronly)
 - [Docusaurus 官方文档](https://docusaurus.io/docs)
-- [GitHub GraphQL API](https://docs.github.com/en/graphql)
