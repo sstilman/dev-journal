@@ -26,7 +26,7 @@ const giscusConfig = {
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Dev Journal",
-  tagline: 'Embedded Development Notes | 以码为笔，记深耕之路',
+  tagline: '全栈技术笔记 | 从嵌入式到 Web，探索软件的无限可能',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -62,10 +62,11 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebarsprojects.js',
-          exclude: ['tutorials/**'],
+          exclude: ['tutorials/**', '.author/**'],
         },
         blog: {
           showReadingTime: true,
+          exclude: ['**/.author/**'],
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
@@ -174,9 +175,9 @@ const config = {
             sidebarId: 'tutorialsSidebar',
             docsPluginId: 'tutorials',
             position: 'left',
-            label: '教程专栏',
+            label: '技术教程',
           },
-          {to: '/blog', label: '博客', position: 'left'},
+          {to: '/blog', label: '技术博客', position: 'left'},
           // 本地搜索栏（由 docusaurus-search-local 插件提供，位于导航栏右侧）
           {
             type: 'search',
@@ -185,7 +186,7 @@ const config = {
           {
             href: 'https://life.stilman.space',
             label: '浮生杂记',
-            position: 'left',
+            position: 'right',
           },
           // {
           //   type: 'localeDropdown',

@@ -14,7 +14,7 @@ export const footerLinks = [
   {
     title: '其他站点',
     links: [
-      { label: '📖 浮生杂记', href: 'https://life.stilman.space' },
+      // { label: '浮生杂记', href: 'https://life.stilman.space' },
     ],
   },
   {

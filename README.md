@@ -1,6 +1,6 @@
 # Dev Journal
 
-嵌入式开发学习与实践记录站点。
+全栈技术学习与实践记录站点，涵盖嵌入式开发、Web 应用、系统运维等多个技术领域。
 
 **🔗 站点入口**: https://dev.stilman.space
 
@@ -10,7 +10,7 @@
 
 | 站点 | 域名 | 定位 |
 |------|------|------|
-| **Dev Journal** | dev.stilman.space | 嵌入式开发笔记 |
+| **Dev Journal** | dev.stilman.space | 全栈技术笔记 |
 | **浮生杂记** | life.stilman.space | 生活记录 + 学习感悟 |
 
 ## 技术栈
